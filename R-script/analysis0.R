@@ -3,13 +3,19 @@
 ###############################################
 library(haven)
 
-DB_PATH <- '/home/enrico/manolo/PCA-jan2022/DB/db_jan2022.sav'
+DB_PATH <- '/home/enrico/manolo/PCA-jan2022/SECURE/db_jan2022.sav'
 FP <- file.path(DB_PATH)
 db0 <- read_sav(FP)
 db0 <- as.data.frame( db0 )
 
 
-
+###############################################
+################ LOAD DATABASE ################
+###############################################
+### I changed ID and created a conversion table stored in SECURE (ID-conversion.tsv)
+#     now I can simply load the converted DB with
+DB_PATH <- '/home/enrico/manolo/PCA-jan2022/DB/db0.tsv'
+db0 <- read.csv( DB_PATH, sep = '\t' )
 
 ###############################################
 ############### 2 STEP CLUSTER ################

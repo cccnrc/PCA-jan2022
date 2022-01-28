@@ -1,8 +1,9 @@
 # Manolo PCA
 
-This is for the PCA-cluster analysis (january 2022)
+This is for the PCA-cluster analysis (January 2022)
 
 ---
+## GitHub
 
 To start the github repo:
 ```
@@ -15,7 +16,7 @@ git push -u origin main
 ```
 for updates:
 ```
-VERSION='0.1'
+VERSION='0.3'
 git add . && git commit -m "PCA Manolo v${VERSION}" && git push
 ```
 
@@ -30,6 +31,6 @@ atom R-script/analysis0.R
 
 ---
 
-## DB
+## Database
 
-For privacy reason DB are not uploaded here
+For privacy reason, original DB are not uploaded here, but a version with converted IDs and no sensitive data is stored inside `DB` folder (`db0.tsv`)
