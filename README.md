@@ -18,3 +18,18 @@ for updates:
 VERSION='0.1'
 git add . && git commit -m "PCA Manolo v${VERSION}" && git push
 ```
+
+---
+
+## R analysis
+
+Analysis scripts are stored in `R-script`:
+```
+atom R-script/analysis0.R
+```
+
+---
+
+## DB
+
+For privacy reason DB are not uploaded here
