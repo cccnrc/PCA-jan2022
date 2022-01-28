@@ -16,7 +16,7 @@ git push -u origin main
 ```
 for updates:
 ```
-VERSION='0.3'
+VERSION='0.4'
 git add . && git commit -m "PCA Manolo v${VERSION}" && git push
 ```
 

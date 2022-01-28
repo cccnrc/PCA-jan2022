@@ -24,7 +24,7 @@ library(prcr)
 
 
 ###### 3 groups division
-m3 <- create_profiles_cluster( db0, OBSCO1_50, OBSCO2_50, n_profiles = 3, linkage = "average" )
+m3 <- create_profiles_cluster( db0, OBSCO1_50, OBSCO2_50, n_profiles = 3, distance_metric = "squared_euclidean", linkage = "complete" )
 # m3 <- create_profiles_cluster(df, broad_interest, enjoyment, instrumental_mot, self_efficacy, n_profiles = 3)
 plot_profiles(m3, to_center = TRUE)
 m3DB <- na.omit( data.frame( lapply( m3, as.factor ) ) )
@@ -46,9 +46,12 @@ library(factoextra)
 ### keep only cluster analysis variables in the DB
 db1 <- db0[ , c(2,3) ]
 
+# Visualize silhouette
+fviz_nbclust(db1, kmeans, method='silhouette')
+
 ### calculate the cluster
 set.seed(123)
-km.db1 <- kmeans(db1, centers = 3, nstart = 10)
+km.db1 <- kmeans(db1, centers = 3)
 ### get the means
 aggregate(db1, by=list(cluster=km.db1$cluster), mean)
 ### add to dataframe
@@ -57,6 +60,10 @@ db0$K_cluster <- km.db1$cluster
 fviz_cluster( km.db1, db1, ellipse.type = "norm" )
 
 
+### try with another package for euclidean (identical to kmeans)
+library(amap)
+km.db1 <- Kmeans(db1, centers = 3, method = "euclidean")
+db0$K_euclidean_cluster <- km.db1$cluster
 
 
 
@@ -64,7 +71,7 @@ fviz_cluster( km.db1, db1, ellipse.type = "norm" )
 ####################################################
 ################ HIERARCHICAL CLUSTER ##############
 ####################################################
-hc.cut <- hcut(db1, k = 3, hc_method = "complete")
+hc.cut <- hcut(db1, k = 3, hc_method = "ward.D2")
 ### add to dataframe
 db0$H_cluster <- hc.cut$cluster
 # Visualize dendrogram
@@ -72,6 +79,8 @@ fviz_dend(hc.cut, show_labels = FALSE, rect = TRUE)
 # Visualize cluster
 fviz_cluster(hc.cut, ellipse.type = "convex")
 
+# Visualize silhouette
+fviz_nbclust(db1, hcut, method='silhouette')
 
 
 
@@ -85,10 +94,12 @@ fviz_cluster(hc.cut, ellipse.type = "convex")
 library(pdfCluster)
 
 ### compare with Manolo
-adj.rand.index(  db0$clusterfinale_catpcatwostep, db0$TWOstep_cluster )
-adj.rand.index(  db0$clusterfinale_catpcatwostep, db0$K_cluster )
-adj.rand.index(  db0$clusterfinale_catpcatwostep, db0$H_cluster )
+adj.rand.index(  db0$manu_2step_cluster, db0$TWOstep_cluster )
+adj.rand.index(  db0$manu_2step_cluster, db0$K_cluster )
+adj.rand.index(  db0$manu_2step_cluster, db0$K_euclidean_cluster )
+adj.rand.index(  db0$manu_2step_cluster, db0$H_cluster )
 ### compare amongst them
+adj.rand.index( db0$K_euclidean_cluster, db0$K_cluster )
 adj.rand.index( db0$TWOstep_cluster, db0$K_cluster )
 adj.rand.index( db0$TWOstep_cluster, db0$H_cluster )
 adj.rand.index( db0$K_cluster, db0$H_cluster )
@@ -105,7 +116,10 @@ adj.rand.index( db0$K_cluster, db0$H_cluster )
 
 
 
-
+####################################################
+################ OUTPUT RESULTS ###############
+####################################################
+write.table( db0, file = '/home/enrico/manolo/PCA-jan2022/DB/db0-clusters.tsv', quote = F, row.names = F, col.names = T, sep = '\t' )
 
 
 ### ENDc
