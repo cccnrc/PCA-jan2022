@@ -16,7 +16,7 @@ git push -u origin main
 ```
 for updates:
 ```
-VERSION='0.4'
+VERSION='0.5'
 git add . && git commit -m "PCA Manolo v${VERSION}" && git push
 ```
 
@@ -24,9 +24,16 @@ git add . && git commit -m "PCA Manolo v${VERSION}" && git push
 
 ## R analysis
 
-Analysis scripts are stored in `R-script`:
+Analysis scripts are stored in `R-script` folder.
+
+First analysis on Manolo's PCA results (jan 2022):
 ```
 atom R-script/analysis0.R
+```
+
+Second analysis on re-run PCA and clustering (feb 2022):
+```
+atom R-script/analysis1.R
 ```
 
 ---
